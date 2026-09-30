@@ -1,83 +1,65 @@
-playwright-automation/
-│
-├── tests/
-│   ├── login/
-│   │   └── login.spec.js
-│   ├── purchase/
-│   │   └── purchase.spec.js
-│   └── ...
-│
-├── pages/
-│   ├── LoginPage.js
-│   ├── HomePage.js
-│   ├── CartPage.js
-│   └── CheckoutPage.js
-│
-├── fixtures/
-│   └── testFixtures.js
-│
-├── utils/
-│   ├── excelReader.js
-│   ├── apiUtils.js
-│   ├── dateUtils.js
-│   ├── fileUtils.js
-│   └── logger.js
-│
-├── test-data/
-│   ├── loginData.json
-│   ├── users.json
-│   └── testData.xlsx
-│
+# Playwright JavaScript API Test Framework
+
+This project is an API test suite built with Playwright Test. It covers authentication and booking operations on RESTful Booker, plus read requests to JSONPlaceholder.
+
+## Project Structure
+
+```text
+Playwright_Js_API_Test/
+├── .github/
+│   └── workflows/
+│       └── playwright.yml       # GitHub Actions test workflow
 ├── config/
-│   ├── qa.config.js
-│   └── staging.config.js
-│
-├── playwright.config.js
+│   ├── qa.config.js             # QA Playwright configuration
+│   └── staging.config.js        # Staging Playwright configuration
+├── fixtures/
+│   └── testAPIFixture.js        # Shared auth and booking setup fixtures
+├── tests/
+│   └── APITests/
+│       ├── deleteBookingID.spec.js
+│       ├── getCall_BookingID.spec.js
+│       ├── patchCall_BookingID.spec.js
+│       ├── postCall_BookingID_Auth.spec.js
+│       ├── postCall_BookingID.spec.js
+│       └── putCall_BookingID.spec.js
+├── utils/
+│   ├── dateUtils.js             # Current date helper
+│   ├── fileUtils.js             # JSON file reader
+│   └── logger.js                # Timestamped console logger
+├── test-results/                # Generated test artifacts
+├── my-report/                   # Previously generated HTML report
+├── playwright-report/           # HTML report output
+├── framework.js                 # Framework notes
+├── framework.md                 # This documentation
 ├── package.json
-├── .env
-├── .gitignore
-│
-└── .github/
-    └── workflows/
-        └── playwright.yml
+├── package-lock.json
+└── playwright.config.js          # Default Playwright configuration
+```
 
-2. Page Object Model (POM)
-Encapsulate page interactions into reusable classes
-Change existing tests to follow page object model
-Example: `searchPage.search(keyword)`
+## Test Coverage
 
-3. Test Data Management
-JSON or CSV files for static data (search keywords like JS, TS)
-Dynamic data generation with libraries like Faker
+- Authentication tests verify valid and invalid RESTful Booker credentials.
+- Booking tests create, update, and delete bookings. Shared fixtures provide an auth response and create a booking for mutation tests.
+- Read tests query JSONPlaceholder posts and users.
 
-4. Custom Commands & Utilities
-Wrap repetitive actions (e.g. search)
-Utility functions for today date, wait, date conversions, etc.
+## Configuration and Reports
 
-5. Configuration & Environment Setup
-Update config file (e.g., 'playwright.config.ts')
-Support for multiple env (dev, staging, prod) using .env
-Update package.json with required dependencies like .env
+The default configuration discovers tests under `tests/`, runs Chromium with one worker, and writes an HTML report to `playwright-report/`. Screenshots, video, and traces are configured for failures/retries. QA and staging configurations are available separately.
 
-6. Reporting
-Configure HTML reports using Allure in playwright config
-Configure Screenshots & video recordings on failure
+The current API tests use absolute endpoint URLs. The environment configurations currently share the same `BASE_URL` fallback, so setting `BASE_URL` does not redirect those hard-coded API requests. Update the test endpoints if environment-specific routing is needed.
 
-7. CI/CD Integration
-Create GitHub Actions workflow (.yml) - Jenkins /  Azure DevOps
-Automate testing on push, PRs, or nightly runs
+## Commands
 
-8. Hooks & Fixtures
-Setup/teardown logic before/after tests
-Custom fixtures for login states, mock data, etc.
+Run these from the project root:
 
-9. Cross-Browser Testing
-Enable Chromium, Firefox, and WebKit support
-Run tests in parallel across different browsers
+```bash
+npm test                  # Run the full suite
+npm run test:headed       # Run with a visible browser
+npm run test:qa           # Use config/qa.config.js
+npm run test:staging      # Use config/staging.config.js
+npm run report            # Open the latest HTML report
+```
 
----
-Bonus Add-ons
+## Continuous Integration
 
-**Code coverage**: Useful for auditing front-end test quality
-**API testing integration**: Using Playwright’s `request` context
-**Performance testing**: Add Lighthouse checks or use metrics API
+The GitHub Actions workflow runs `npm ci`, installs Playwright browsers, and runs the full suite on pushes and pull requests targeting `main` or `master`. It uploads `playwright-report/` as a workflow artifact.
