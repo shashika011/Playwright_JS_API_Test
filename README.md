@@ -18,7 +18,6 @@ Playwright_Js_API_Test/
 │   └── APITests/
 │       ├── deleteBookingID.spec.js
 │       ├── getCall_BookingID.spec.js
-│       ├── getCall_Users.spec.js
 │       ├── patchCall_BookingID.spec.js
 │       ├── postCall_BookingID_Auth.spec.js
 │       ├── postCall_BookingID.spec.js
