@@ -1,0 +1,20 @@
+{
+  "name": "playwright_js_framework",
+  "version": "1.0.0",
+  "main": "framework.js",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:qa": "playwright test --config=config/qa.config.js",
+    "test:staging": "playwright test --config=config/staging.config.js",
+    "report": "playwright show-report"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "Playwright automation framework with POM and config support",
+  "devDependencies": {
+    "@playwright/test": "^1.63.0",
+    "@types/node": "^26.6.2"
+  }
+}
